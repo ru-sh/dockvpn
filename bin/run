@@ -66,8 +66,6 @@ MY_IP_ADDR=$(curl -s http://myip.enix.org/REMOTE_ADDR)
     exit 1
 }
 
-zip -r -9 ovpn.zip key.pem cert.pem dh.pem
-
 iptables -t nat -A POSTROUTING -s 192.168.255.0/24 -o eth0 -j MASQUERADE
 
 touch tcp443.log udp1194.log http8080.log

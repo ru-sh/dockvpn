@@ -7,19 +7,21 @@ cd /etc/openvpn
     exit 1
 }
 
-while ! [ -f ovpn.zip ]; do
+while ! [ -f cert.pem ]; do
     echo "Waiting for the other container to generate keys and config..."
     sleep 3
 done
 
-echo "https://$(curl -s http://myip.enix.org/REMOTE_ADDR):8080/"
+
+PASS=$( shuf -i 100000-999999 -n 1 )
+zip -r -9 --password $PASS ovpn.zip key.pem cert.pem dh.pem
+
+echo "http://$(curl -s http://myip.enix.org/REMOTE_ADDR):8080/"
+echo "PASS: $PASS"
 
 [ -f client.http ] || cat > lighttpd.conf <<EOF 
 server.document-root = "/etc/openvpn/" 
 server.port = 8080
-ssl.engine = "enable" 
-ssl.pemfile = "/etc/openvpn/cert.pem"
-ssl.ca-file = "/etc/openvpn/key.pem"
 mimetype.assign = (
   ".zip" => "application/zip"
 )
