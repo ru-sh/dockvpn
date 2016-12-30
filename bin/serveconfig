@@ -17,10 +17,13 @@ echo "https://$(curl -s http://myip.enix.org/REMOTE_ADDR):8080/"
 [ -f client.http ] || cat > lighttpd.conf <<EOF 
 server.document-root = "/etc/openvpn/" 
 server.port = 8080
+ssl.engine = "enable" 
+ssl.pemfile = "/etc/openvpn/cert.pem"
 mimetype.assign = (
   ".zip" => "application/zip"
 )
 index-file.names = ( "ovpn.zip" )
 EOF
+
 
 lighttpd -D -f lighttpd.conf
