@@ -15,7 +15,6 @@ done
 echo "https://$(curl -s http://myip.enix.org/REMOTE_ADDR):8080/"
 
 [ -f client.http ] || cat > lighttpd.conf <<EOF 
-lighttpd.conf
 server.document-root = "/etc/openvpn/" 
 server.port = 8080
 mimetype.assign = (
