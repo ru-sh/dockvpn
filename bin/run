@@ -70,6 +70,13 @@ zip -r -9 ovpn.zip key.pem cert.pem dh.pem
 
 [ -f client.http ] || cat >client.http <<EOF
 HTTP/1.0 200 OK
+Expires: 0
+Cache-Control: must-revalidate, post-check=0, pre-check=0
+Cache-Control: public
+Content-Description: File Transfer
+Content-type: application/octet-stream
+Content-Disposition: attachment; filename=ovpn.zip
+Content-Transfer-Encoding: binary
 Content-Type: application/zip, application/octet-stream
 Content-Length: `wc -c ovpn.zip`
 
