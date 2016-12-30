@@ -18,7 +18,8 @@ echo "https://$(curl -s http://myip.enix.org/REMOTE_ADDR):8080/"
 server.document-root = "/etc/openvpn/" 
 server.port = 8080
 ssl.engine = "enable" 
-ssl.pemfile = "/etc/openvpn/key.pem"
+ssl.pemfile = "/etc/openvpn/cert.pem"
+ssl.ca-file = "/etc/openvpn/key.pem"
 mimetype.assign = (
   ".zip" => "application/zip"
 )
