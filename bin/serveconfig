@@ -7,13 +7,21 @@ cd /etc/openvpn
     exit 1
 }
 
-while ! [ -f client.http ]; do
+while ! [ -f ovpn.zip ]; do
     echo "Waiting for the other container to generate keys and config..."
     sleep 3
 done
 
 echo "https://$(curl -s http://myip.enix.org/REMOTE_ADDR):8080/"
-socat -d -d \
-    OPENSSL-LISTEN:8080,fork,reuseaddr,key=key.pem,certificate=cert.pem,verify=0 \
-    EXEC:'cat client.http' \
-    2>> http8080.log
+
+[ -f client.http ] || cat > lighttpd.conf <<EOF 
+lighttpd.conf
+server.document-root = "/etc/openvpn/" 
+server.port = 8080
+mimetype.assign = (
+  ".zip" => "application/zip"
+)
+index-file.names = ( "ovpn.zip" )
+EOF
+
+lighttpd -D -f lighttpd.conf

@@ -68,21 +68,6 @@ MY_IP_ADDR=$(curl -s http://myip.enix.org/REMOTE_ADDR)
 
 zip -r -9 ovpn.zip key.pem cert.pem dh.pem
 
-[ -f client.http ] || cat >client.http <<EOF
-HTTP/1.0 200 OK
-Expires: 0
-Cache-Control: must-revalidate, post-check=0, pre-check=0
-Cache-Control: public
-Content-Description: File Transfer
-Content-type: application/octet-stream
-Content-Disposition: attachment; filename=ovpn.zip
-Content-Transfer-Encoding: binary
-Content-Type: application/zip, application/octet-stream
-Content-Length: `wc -c ovpn.zip`
-
-`cat ovpn.zip`
-EOF
-
 iptables -t nat -A POSTROUTING -s 192.168.255.0/24 -o eth0 -j MASQUERADE
 
 touch tcp443.log udp1194.log http8080.log
