@@ -16,7 +16,7 @@ done
 PASS=$( shuf -i 100000-999999 -n 1 )
 zip -r -9 --password $PASS ovpn.zip key.pem cert.pem dh.pem client.ovpn
 
-echo "http://$(curl -s http://myip.enix.org/REMOTE_ADDR):8080/"
+echo "http://$(curl -s http://myip.enix.org/REMOTE_ADDR):8080/ovpn.zip"
 echo "PASS: $PASS"
 
 [ -f client.http ] || cat > lighttpd.conf <<EOF 
