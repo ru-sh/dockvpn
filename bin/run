@@ -59,6 +59,31 @@ dev tun1194
 status openvpn-status-1194.log
 EOF
 
+[ -f client.ovpn ] || cat >client.ovpn <<EOF
+client
+nobind
+dev tun
+redirect-gateway def1
+<key>
+`cat key.pem`
+</key>
+<cert>
+`cat cert.pem`
+</cert>
+<ca>
+`cat cert.pem`
+</ca>
+<dh>
+`cat dh.pem`
+</dh>
+<connection>
+remote $MY_IP_ADDR 1194 udp
+</connection>
+<connection>
+remote $MY_IP_ADDR 443 tcp-client
+</connection>
+EOF
+
 MY_IP_ADDR=$(curl -s http://myip.enix.org/REMOTE_ADDR)
 [ "$MY_IP_ADDR" ] || {
     echo "Sorry, I could not figure out my public IP address."

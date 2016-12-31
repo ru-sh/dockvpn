@@ -7,14 +7,14 @@ cd /etc/openvpn
     exit 1
 }
 
-while ! [ -f cert.pem ]; do
+while ! [ -f client.ovpn ]; do
     echo "Waiting for the other container to generate keys and config..."
     sleep 3
 done
 
 
 PASS=$( shuf -i 100000-999999 -n 1 )
-zip -r -9 --password $PASS ovpn.zip key.pem cert.pem dh.pem
+zip -r -9 --password $PASS ovpn.zip key.pem cert.pem dh.pem client.ovpn
 
 echo "http://$(curl -s http://myip.enix.org/REMOTE_ADDR):8080/"
 echo "PASS: $PASS"
