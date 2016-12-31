@@ -19,7 +19,7 @@ zip -r -9 --password $PASS ovpn.zip key.pem cert.pem dh.pem client.ovpn
 echo "http://$(curl -s http://myip.enix.org/REMOTE_ADDR):8080/ovpn.zip"
 echo "PASS: $PASS"
 
-[ -f client.http ] || cat > lighttpd.conf <<EOF 
+[ -f lighttpd.conf ] || cat > lighttpd.conf <<EOF 
 server.document-root = "/etc/openvpn/" 
 server.port = 8080
 mimetype.assign = (
